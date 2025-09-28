@@ -6,7 +6,7 @@ import {
     normalizeQbFields,
 } from './utils.js';
 
-class QbRest {
+export class QbRest {
     constructor(realm, appToken) {
         this.realm = realm;
         this.appToken = appToken;
