@@ -1,0 +1,14 @@
+{
+  "name": "qb-rest",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./QbRest": "./src/QbRest.js",
+    "./QbQueryResponse": "./src/QbQueryResponse.js",
+    "./QbUpsertResponse": "./src/QbUpsertResponse.js",
+    "./utils": "./src/utils.js"
+  },
+  "description": "QuickBase REST API client library"
+}
