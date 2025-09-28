@@ -1,5 +1,5 @@
 import { getQbAppBaseUrl } from './utils.js';
-class QbQueryResponse {
+export class QbQueryResponse {
     constructor(rawResponse, dbid) {
         this.raw = rawResponse;
         this.data = rawResponse.data || [];

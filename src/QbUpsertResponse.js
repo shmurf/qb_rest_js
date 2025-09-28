@@ -1,4 +1,4 @@
-class QbUpsertResponse {
+export class QbUpsertResponse {
     constructor(rawResponse) {
         this.raw = rawResponse;
         this.data = rawResponse.data || [];
