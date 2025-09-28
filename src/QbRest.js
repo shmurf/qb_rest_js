@@ -2,10 +2,8 @@ import { get, set, del, clear, createStore } from 'https://cdn.jsdelivr.net/npm/
 import { QbQueryResponse } from './QbQueryResponse.js';
 import { QbUpsertResponse } from './QbUpsertResponse.js';
 import {
-    getQbAppBaseUrl,
     parameterize,
     normalizeQbFields,
-    generateCacheKey
 } from './utils.js';
 
 class QbRest {
