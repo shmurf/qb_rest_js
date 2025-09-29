@@ -26,37 +26,59 @@ export class QbQueryResponse {
 
     // Get records as objects with field names as keys
     get formattedRecords() {
-        const fieldValues = this.data.map(item => {
-            const transformedItem = {};
-            Object.keys(item).forEach(id => {
-                const label = this.fieldMap[id];
-                if (label) {
-                    transformedItem[label] = item[id].value;
-                } else {
-                    transformedItem[id] = item[id].value;
-                }
-            });
-            if (item['3']) {
-                transformedItem.rid = item['3'].value;
-            }
-            return transformedItem;
-        });
-        return fieldValues;
+        return this.records.map(record => this.unpackRecord(record, true));
     }
 
-    unpackRecord(record, rekey = false) {
+    /**
+     * Format records with custom field names as keys
+     * if fieldMap is not provided, will return default formatted records
+     * @param {Object} [fieldMap] - Optional field map to use for transformation
+     * @returns {Array<Object>} - Formatted records with field names as keys
+     */
+    remapRecords(fieldMap = null) {
+        if (!fieldMap) {
+            return this.formattedRecords;
+        }
+        return this.records.map(record => this.unpackRecord(record, true, fieldMap));
+    }
+
+    /**
+     * Get records as objects with values directly availble by field IDs
+     * @returns {Array<Object>} - Records with field IDs as keys
+     */
+    get unpackedRecords() {
+        return this.records.map(record => this.unpackRecord(record));
+    }
+
+    /**
+     * Unpacks a record object with field values as sub-objects into a flat object. Optional parameters to rekey using fieldnames or custom mappping
+     * @param {Object} record - The record object to unpack
+     * @param {boolean} [rekey=false] - If true, will use the field IDs as object keys instead of field labels
+     * @param {Object} [fieldMap=null] - Optional custom field map to use for transformation
+     * @returns {Object} - The unpacked record object with field names as keys
+     */
+    unpackRecord(record, rekey = false, fieldMap = null) {
+        const mapper = fieldMap || this.fieldMap;
         const transformedRecord = {};
         Object.keys(record).forEach(id => {
-            const label = !rekey ? id : this.fieldMap[id];
+            const label = !rekey ? id : mapper[id];
             if (label) {
                 transformedRecord[label] = record[id].value;
             } else {
                 transformedRecord[id] = record[id].value;
             }
         });
+        if (record['3']) {
+            transformedRecord.rid = record['3'].value;
+        }
         return transformedRecord;
     }
 
+    /**
+     * Gets an object with URLs for viewing and editing each record.
+     * @returns {Object<string, {view: string, edit: string}>} - Object with record IDs as keys and URL objects as values
+     * @throws {Error} - If the Record ID field is not found
+     */
     get urls() {
         if (!this.fieldMap['3']) {
             throw new Error('Cannot get URLs - Record ID field not found');
