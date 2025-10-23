@@ -87,8 +87,8 @@ export class QbQueryResponse {
         const urlObj = {};
         this.records.forEach(record =>
             urlObj[record['3'].value] = {
-                view: `${tableUrl}dr/?rid=${record['3'].value}`,
-                edit: `${tableUrl}er/?rid=${record['3'].value}`,
+                view: `${tableUrl}dr?rid=${record['3'].value}`,
+                edit: `${tableUrl}er?rid=${record['3'].value}`,
             }
         );
         return urlObj;
