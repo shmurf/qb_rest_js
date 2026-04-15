@@ -274,7 +274,7 @@ export class QbRest {
      * @throws {Error} If the request fails
      */
     async getUserXml() {
-        const url = `https://${this.realm}.quickbase.com/db/main?a=API_GetUserInfo&ticket=${this.appToken}`;
+        const url = `/db/main?a=API_GetUserInfo`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Get user info failed: ${response.status} ${response.statusText}`);
